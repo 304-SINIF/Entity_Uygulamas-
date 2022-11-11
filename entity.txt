@@ -1,1 +1,24 @@
-ekle > yeni öğe > veri > adonet entity data model
+ekle > yeni öğe > veri > adonet entity data model  >>> diyagram ekleme
+
+
+
+EN FAZLA ÜRÜNLÜ MARKAYI BULURKEN YAPTIK
+
+Create Procedure Urungetir
+As
+Select top 1 Marka from tbl_urun group by Marka Order By COUNT(*) desc
+
+
+
+STOK AZALTMA TRIGGERI:
+
+Create Trigger Stokazalt 
+On tbl_satis 
+after insert 
+as 
+begin
+declare @urunid int
+declare @miktar int
+Select @urunid = Urun, @miktar = SatisAdet from inserted
+Update tbl_urun set UrunStok = UrunStok-@miktar where UrunID = @urunid
+end

@@ -12,6 +12,8 @@ namespace Entity__Uygulaması
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Satış_TakipEntities : DbContext
     {
@@ -30,5 +32,10 @@ namespace Entity__Uygulaması
         public virtual DbSet<tbl_musteri> tbl_musteri { get; set; }
         public virtual DbSet<tbl_satis> tbl_satis { get; set; }
         public virtual DbSet<tbl_urun> tbl_urun { get; set; }
+    
+        public virtual ObjectResult<string> Urungetir()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Urungetir");
+        }
     }
 }

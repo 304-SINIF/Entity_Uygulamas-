@@ -68,5 +68,17 @@ namespace Entity__Uygulaması
             MessageBox.Show("Kategori güncellenmiştir.");
             Listele();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form form = new Form1();
+            form.Show();
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

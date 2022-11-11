@@ -16,7 +16,7 @@ namespace Entity__Uygulaması
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Ürün());
+            Application.Run(new Form1());
         }
     }
 }

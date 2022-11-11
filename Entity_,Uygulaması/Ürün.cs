@@ -20,6 +20,13 @@ namespace Entity__Uygulaması
 
         public void Listele()
         {
+            var kategori = dataGridView1.DataSource = (from y in db.tbl_kategori
+                                                     select new
+                                                     {
+                                                        y.KategoriID,
+                                                        y.KategoriAd
+                                                     }).ToList();
+
             var goster = dataGridView1.DataSource = (from x in db.tbl_urun
                                         select new
                                         {
@@ -32,7 +39,7 @@ namespace Entity__Uygulaması
                                         }).ToList();
             comboBox1.ValueMember = "KategoriID";
             comboBox1.DisplayMember = "KategoriAd";
-            comboBox1.DataSource = goster;
+            comboBox1.DataSource = kategori;
             dataGridView1.DataSource = goster;
         }
         private void Ürün_Load(object sender, EventArgs e)
@@ -44,11 +51,12 @@ namespace Entity__Uygulaması
         private void button1_Click(object sender, EventArgs e)
         {
             tbl_urun urun = new tbl_urun();
+            
             urun.Urunad = textBox2.Text;
             urun.Marka = textBox6.Text;
-            urun.UrunFiyat = int.Parse(textBox5.Text);
+            urun.UrunFiyat = decimal.Parse(textBox5.Text);
             urun.UrunStok = int.Parse(textBox4.Text);
-            urun.Kategori = comboBox1.SelectedIndex+1;
+            urun.Kategori = Convert.ToInt32(comboBox1.SelectedValue);
 
             db.tbl_urun.Add(urun);
             db.SaveChanges();
@@ -72,15 +80,41 @@ namespace Entity__Uygulaması
             var bul = db.tbl_urun.Find(id);
             bul.Urunad = textBox2.Text;
             bul.Marka = textBox6.Text;
-            bul.UrunFiyat = int.Parse(textBox5.Text);
+            bul.UrunFiyat = decimal.Parse(textBox5.Text);
             bul.UrunStok = int.Parse(textBox4.Text);
-            bul.Kategori = int.Parse(comboBox1.Text);
+            bul.Kategori = Convert.ToInt32(comboBox1.SelectedValue);
+            db.SaveChanges();
+            MessageBox.Show("Ürün güncellenmiştir.");
+            Listele();
 
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int secilen = dataGridView1.SelectedCells[0].RowIndex;
+            textBox1.Text = dataGridView1.Rows[secilen].Cells[0].Value.ToString();
+            textBox2.Text = dataGridView1.Rows[secilen].Cells[1].Value.ToString();
+            textBox6.Text = dataGridView1.Rows[secilen].Cells[2].Value.ToString();
+            textBox5.Text = dataGridView1.Rows[secilen].Cells[3].Value.ToString();
+            textBox4.Text = dataGridView1.Rows[secilen].Cells[4].Value.ToString();
+            comboBox1.Text = dataGridView1.Rows[secilen].Cells[5].Value.ToString();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form form = new Form1();
+            form.Show();
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
